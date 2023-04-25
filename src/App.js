@@ -14,9 +14,10 @@ const [counter, setCounter] = useState(0);
 
 useEffect(() => {
   axios.get("https://booklist-ak38.onrender.com/").then((res) => {
-    setBookList(res.data);
+     setBookList(res.data)
   });
-}, []);
+ 
+});
 
 useEffect(() => {
   setCounter(bookList.length);
