@@ -9,6 +9,8 @@ import React, { useState, useEffect } from "react";
 function App() {
 
 const [bookList, setBookList] = useState([]);
+const [counter, setCounter] = useState(0);
+
 
 useEffect(() => {
   axios.get("https://booklist-ak38.onrender.com/").then((res) => {
@@ -16,12 +18,30 @@ useEffect(() => {
   });
 }, []);
 
+useEffect(() => {
+  setCounter(bookList.length);
+}, [bookList]);
+
+const handleDelete = (id) => {
+  axios.delete(`https://booklist-ak38.onrender.com/${id}`)
+    .then(response => {
+      console.log("deleted property from DB:",response.data);
+      // Remove the deleted book from the bookList state
+      const updatedList = bookList.filter(book => book._id !== id);
+      setBookList(updatedList);
+      setCounter(counter - 1);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
   return (
     <div className="App">
       
       <div className="">
         <br />
         <h2 className="display-4 text-center">Books List</h2>
+        <h1>{counter}</h1>
       </div>
       
       <div class="">
@@ -33,7 +53,8 @@ useEffect(() => {
       <div class="d-flex flex-row">
       <Routes>
       <Route path="/" element={
-          bookList.map(book => <BookList key={book.id} title={book.title} author={book.author} description={book.description} />)
+          bookList.map(book => <BookList id={book._id} title={book.title} author={book.author} description={book.description} handleDelete={handleDelete} setCounter={setCounter}
+            counter={counter}/>)
         } /> 
       
         <Route path="/create-book" element={<CreateBook></CreateBook>}></Route>
