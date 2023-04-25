@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./styles.css";
+import { useNavigate } from 'react-router-dom';
+
 
 const CreateBook = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +10,7 @@ const CreateBook = () => {
     author: "",
     description: "",
   });
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +22,8 @@ const CreateBook = () => {
               
     });
     console.log({res})
+    navigate('/');
+
     
   };
 
