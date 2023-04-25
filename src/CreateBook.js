@@ -1,17 +1,17 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom"
 import axios from "axios";
 import "./styles.css";
-import { useNavigate } from 'react-router-dom';
 
 
 const CreateBook = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     title: "",
     author: "",
     description: "",
   });
-  const navigate = useNavigate();
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await axios.post("https://booklist-ak38.onrender.com/", formData,{
@@ -22,9 +22,7 @@ const CreateBook = () => {
               
     });
     console.log({res})
-    navigate('/');
-
-    
+    navigate('/')
   };
 
   const handleChange = (e) => {
